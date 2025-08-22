@@ -27,7 +27,7 @@ ENV PATH="/root/.bun/bin:$PATH"
 WORKDIR /app
 
 # Copy package files
-COPY package.json pnpm-lock.yaml ./
+COPY package.json ./
 
 # Install pnpm and dependencies
 RUN npm install -g pnpm && \
@@ -48,11 +48,7 @@ RUN npm install -g tsx
 WORKDIR /workspace 
  
 # Create the entrypoint script directly in the container
-RUN cat << 'EOF' > /entrypoint.sh
-#!/bin/sh
- 
-/root/.bun/bin/bun /app/cli.js -c /workspace "$@"
-EOF
+COPY entrypoint.sh  /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
 
